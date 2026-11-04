@@ -1,0 +1,33 @@
+= FPSOT website builder
+
+This repository builds the container image that builds the fpsot.org website.
+The image holds JDK 25, Maven, and a Maven repository with the Quarkus and Roq builds that the site needs.
+
+== Why a builder image
+
+The site has thousands of pages. Released Quarkus and Roq cannot build a single site of that size yet.
+The image holds builds that carry the fixes until they are released:
+
+* Quarkus: the Qute template data goes to a generated resource (quarkusio/quarkus#58090), on the 3.40 branch.
+* Roq: large-site support (quarkiverse/quarkus-roq#1312 and #1340), on 2.2.0.
+
+Once both are released, the site goes back to the released versions and this image is retired.
+
+== Use
+
+[source,shell]
+----
+podman run --rm -v "$PWD:/site" -w /site ghcr.io/fpsot-org/fpsot-website-builder:latest \
+  sh -c 'QUARKUS_ROQ_GENERATOR_BATCH=true mvn -B $FPSOT_SITE_MAVEN_ARGS package quarkus:run'
+----
+
+`FPSOT_SITE_MAVEN_ARGS` selects the Quarkus and Roq versions held by the image.
+
+== Update
+
+Change `QUARKUS_REF` or `ROQ_REF` in `Containerfile` to a new commit, and keep `warmup/pom.xml` in line with the site's `pom.xml`.
+The image build ends with a build of the small site in `warmup/`, which fails when the image misses a module.
+
+== Licence
+
+Apache License 2.0. See `LICENSE` and `NOTICE`.

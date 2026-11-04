@@ -1,0 +1,8 @@
+= Warm-up page
+:page-layout: raw
+
+[cols="1,1",options="header"]
+|===
+|A |B
+|1 |2
+|===
