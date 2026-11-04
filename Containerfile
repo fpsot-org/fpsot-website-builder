@@ -15,7 +15,8 @@ ARG QUARKUS_REPO=https://github.com/SiteNetSoft/quarkus.git
 ARG QUARKUS_REF=37e430ca9a142134f7b2dc83c51474694212391d
 ARG ROQ_REPO=https://github.com/SiteNetSoft/quarkus-roq.git
 ARG ROQ_REF=c37fd663e2a1fb07ec842a6cad2f962f2842d261
-ENV MAVEN_OPTS="-Xmx4g -XX:ReservedCodeCacheSize=512m"
+# Maven Central drops a request now and then; retry instead of failing a long build.
+ENV MAVEN_OPTS="-Xmx4g -XX:ReservedCodeCacheSize=512m -Daether.connector.http.retryHandler.count=10 -Daether.connector.http.retryHandler.requestSentEnabled=true -Daether.connector.http.retryHandler.interval=5000"
 # First the modules that Quarkus's own build uses as plugins (-am does not follow
 # plugin dependencies), then the Quarkus modules that the site and the Roq build use,
 # with what they need (-am).
