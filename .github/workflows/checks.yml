@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: Apache-2.0
+# Pull request checks shared by every FPSOT repository.
+name: checks
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+permissions:
+  contents: read
+jobs:
+  pr-title:
+    uses: fpsot-org/GitHub-Actions/.github/workflows/pr-title.yml@v0
+    permissions:
+      pull-requests: read
+  signed-commits:
+    uses: fpsot-org/GitHub-Actions/.github/workflows/signed-commits.yml@v0
+    permissions:
+      contents: read
+      pull-requests: read
