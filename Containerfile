@@ -16,9 +16,12 @@ ARG QUARKUS_REF=37e430ca9a142134f7b2dc83c51474694212391d
 ARG ROQ_REPO=https://github.com/SiteNetSoft/quarkus-roq.git
 ARG ROQ_REF=c37fd663e2a1fb07ec842a6cad2f962f2842d261
 ENV MAVEN_OPTS="-Xmx4g -XX:ReservedCodeCacheSize=512m"
-# The Quarkus extensions the site uses, with what they need (-am).
+# First the modules that Quarkus's own build uses as plugins (-am does not follow
+# plugin dependencies), then the extensions the site uses, with what they need (-am).
 RUN git init -q /src/quarkus && cd /src/quarkus \
  && git fetch -q --depth 1 "$QUARKUS_REPO" "$QUARKUS_REF" && git checkout -q FETCH_HEAD \
+ && mvn -B -q -Dquickly -Dskip.gradle.build=true \
+      -pl independent-projects/ide-config,independent-projects/enforcer-rules,independent-projects/extension-maven-plugin,independent-projects/resteasy-reactive/build-support -am \
  && mvn -B -q -Dquickly -Dskip.gradle.build=true -T 4 \
       -pl bom/application,devtools/maven,core/deployment,extensions/arc/deployment,extensions/qute/deployment,extensions/vertx-http/deployment,extensions/vertx/deployment,extensions/netty/deployment,extensions/mutiny/deployment,extensions/jackson/deployment,extensions/smallrye-context-propagation/deployment,extensions/virtual-threads/deployment,extensions/tls-registry/deployment,extensions/credentials/deployment \
       -am \
