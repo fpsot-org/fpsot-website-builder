@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Build the image
-        run: podman build --pull=missing -f Containerfile -t "$IMAGE:build" .
+        run: podman build --pull=missing --ulimit nofile=65535:65535 -f Containerfile -t "$IMAGE:build" .
       - name: Publish the image
         if: github.event_name != 'pull_request'
         env:
