@@ -23,7 +23,7 @@ RUN git init -q /src/quarkus && cd /src/quarkus \
  && mvn -B -q install -Dquickly -Dskip.gradle.build=true \
       -pl independent-projects/ide-config,independent-projects/enforcer-rules,independent-projects/extension-maven-plugin,independent-projects/resteasy-reactive/build-support -am \
  && mvn -B -q install -Dquickly -Dskip.gradle.build=true -T 4 \
-      -pl bom/application,devtools/maven,core/deployment,extensions/arc/deployment,extensions/qute/deployment,extensions/vertx-http/deployment,extensions/vertx/deployment,extensions/netty/deployment,extensions/mutiny/deployment,extensions/jackson/deployment,extensions/smallrye-context-propagation/deployment,extensions/virtual-threads/deployment,extensions/tls-registry/deployment,extensions/credentials/deployment \
+      -pl bom/application,devtools/maven,devtools/config-doc-maven-plugin,core/deployment,extensions/arc/deployment,extensions/qute/deployment,extensions/vertx-http/deployment,extensions/vertx/deployment,extensions/netty/deployment,extensions/mutiny/deployment,extensions/jackson/deployment,extensions/smallrye-context-propagation/deployment,extensions/virtual-threads/deployment,extensions/tls-registry/deployment,extensions/credentials/deployment \
       -am \
  && cd / && rm -rf /src/quarkus
 RUN git init -q /src/roq && cd /src/roq \
